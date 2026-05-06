@@ -1,0 +1,40 @@
+name = "ai2"
+main = "src/index.ts"
+compatibility_date = "2025-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Workers AI binding — gives the Worker access to env.AI.run(...)
+[ai]
+binding = "AI"
+
+# Default chat model used when the OpenAI request doesn't match a known mapping.
+# Override per-deploy in the Cloudflare dashboard or via `wrangler secret put`.
+[vars]
+DEFAULT_CHAT_MODEL = "@cf/google/gemma-4-26b-a4b-it"
+DEFAULT_EMBEDDING_MODEL = "@cf/baai/bge-m3"
+
+# Optional secret — if set, the Worker requires `Authorization: Bearer <API_KEY>`.
+# Set with: wrangler secret put API_KEY
+# (Not declared here so the deploy works without it; add the secret yourself.)
+
+[observability]
+enabled = true
+
+# Optional — uncomment to enable per-API-key (or per-IP) rate limiting on
+# /v1/* endpoints. When the binding is absent the bridge silently skips
+# rate-limit checks. Pick a `limit` and `period` (in seconds) that match
+# your account's expected traffic.
+#
+# [[unsafe.bindings]]
+# name = "RATE_LIMITER"
+# type = "ratelimit"
+# namespace_id = "1001"
+# simple = { limit = 60, period = 60 }
+
+# Optional — uncomment to write one row per /v1/* call to Analytics Engine
+# (free dataset, queryable via the GraphQL Analytics API). Useful for
+# graphing latency / endpoint mix / status codes over time.
+#
+# [[analytics_engine_datasets]]
+# binding = "ANALYTICS"
+# dataset = "openai_bridge"

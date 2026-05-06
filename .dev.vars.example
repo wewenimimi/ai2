@@ -1,0 +1,3 @@
+# Copy this file to `.dev.vars` for local development with `wrangler dev`.
+# In production, set this with: wrangler secret put API_KEY
+API_KEY=sk-local-dev-change-me
